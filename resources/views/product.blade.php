@@ -15,7 +15,6 @@
                     </div>
                     <div class="product-info">
                         <h4>Side Table</h4>
-                        <p>Solid Side Table - Natural Rattan</p>
                     </div>
                 </div>
             </div>
@@ -27,7 +26,6 @@
                     </div>
                     <div class="product-info">
                         <h4>Chair</h4>
-                        <p>Java Dining Arm Chair Blue - Natural Rattan</p>
                     </div>
                 </div>
             </div>
@@ -39,7 +37,6 @@
                     </div>
                     <div class="product-info">
                         <h4>Mirror</h4>
-                        <p>Cane Mirror - Natural Rattan</p>
                     </div>
                 </div>
             </div>
@@ -51,7 +48,6 @@
                     </div>
                     <div class="product-info">
                         <h4>Chandelier</h4>
-                        <p>Boho Chandelier Steel Blue - Natural Rattan</p>
                     </div>
                 </div>
             </div>
@@ -59,7 +55,7 @@
 
         <div class="row mt-3 mt-lg-4">
             <div class="col-12 text-center" data-aos="fade-up" data-aos-delay="600">
-                <a href="#" class="btn btn-outline-dark px-3 px-md-4 py-2" style="border-radius: 25px; font-family: 'Montserrat'; letter-spacing: 1px; font-weight: 500; border-width: 1px; transition: all 0.3s ease;">View Collection</a>
+                <a href="{{ asset('collection') }}" class="btn btn-outline-dark px-3 px-md-4 py-2" style="border-radius: 25px; font-family: 'Montserrat'; letter-spacing: 1px; font-weight: 500; border-width: 1px; transition: all 0.3s ease;">View Collection</a>
             </div>
         </div>
     </div>

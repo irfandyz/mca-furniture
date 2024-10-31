@@ -11,18 +11,19 @@
             <div class="col-12 col-md-6 mb-4 mb-lg-0" data-aos="fade-right" data-aos-delay="200">
                 <div class="contact-form p-4 bg-white rounded shadow-sm">
                     <h4 class="mb-4">Let's Chat</h4>
-                    <form>
+                    <form action="{{ asset('contact') }}" method="post">
+                        @csrf
                         <div class="form-group mb-3">
-                            <input type="text" class="form-control form-control-lg" placeholder="Name" required>
+                            <input type="text" class="form-control form-control-lg" placeholder="Name" name="name" required>
                         </div>
                         <div class="form-group mb-3">
-                            <input type="email" class="form-control form-control-lg" placeholder="Email" required>
+                            <input type="email" class="form-control form-control-lg" placeholder="Email" name="email" required>
                         </div>
                         <div class="form-group mb-3">
-                            <input type="tel" class="form-control form-control-lg" placeholder="Phone">
+                            <input type="tel" class="form-control form-control-lg" placeholder="Phone" name="phone">
                         </div>
                         <div class="form-group mb-4">
-                            <textarea class="form-control form-control-lg" rows="5" placeholder="Message" required></textarea>
+                            <textarea class="form-control form-control-lg" rows="5" placeholder="Message" name="message" required></textarea>
                         </div>
                         <button type="submit" class="btn btn-dark px-4 py-2 w-100 w-sm-auto">Send Now</button>
                     </form>
