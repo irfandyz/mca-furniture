@@ -38,7 +38,7 @@
             opacity: 1;
         }
         .border-image{
-            border: 5px solid #c7c7c7;
+            /* border: 5px solid #c7c7c7; */
         }
     </style>
 

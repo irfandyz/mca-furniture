@@ -21,7 +21,7 @@
             object-fit: cover; width: 80px; height: 80px; margin-right: 10px; background-color: #ebebeb;
         }
         .border-image{
-            border: 5px solid #c7c7c7;
+            /* border: 5px solid #c7c7c7; */
         }
     </style>
     @yield('css')
