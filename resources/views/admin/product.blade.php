@@ -11,7 +11,7 @@
                 </div>
             </form>
             <div class="row">
-                <div class="col-sm-4 mt-3">
+                <div class="col-sm-4 mt-3 mb-5">
                     <div class="card hover-shadow" data-aos="fade-up"
                         style="border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); cursor: pointer; height: 100%; background-color: #F5F5F5;"
                         data-bs-toggle="modal" data-bs-target="#addProductModal">
@@ -27,9 +27,9 @@
                 <!-- Modal for Adding New Product -->
                 <div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel"
                     aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-dialog modal-dialog-centered modal-lg">
                         <div class="modal-content">
-                            <div class="modal-body">
+                            <div class="modal-body p-5">
                                 <form id="addProductForm" action="{{ asset('admin/product/store') }}" method="post"
                                     enctype="multipart/form-data">
                                     @csrf
@@ -40,6 +40,22 @@
                                             name="name" required>
                                     </div>
                                     <div class="mb-3">
+                                        <label for="productCode" class="form-label">Product Code</label>
+                                        <input type="text" class="form-control rounded-3" id="productCode" name="code" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="productColor" class="form-label">Product Color</label>
+                                        <input type="text" class="form-control rounded-3" id="productColor" name="color" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="productMaterial" class="form-label">Product Material</label>
+                                        <input type="text" class="form-control rounded-3" id="productMaterial" name="material" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="productSize" class="form-label">Product Size</label>
+                                        <input type="text" class="form-control rounded-3" id="productSize" name="size" required>
+                                    </div>
+                                    <div class="mb-3">
                                         <label for="productCategory" class="form-label">Category</label>
                                         <select class="form-select" id="productCategory" name="category_id" required>
                                             @foreach ($categories as $category)
@@ -48,8 +64,8 @@
                                         </select>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="productImage" class="form-label">Product Image</label>
-                                        <input type="file" class="form-control" id="productImage" name="image"
+                                        <label for="productImage" class="form-label">Product Image <small class="text-danger">* Max 4 Image</small></label>
+                                        <input type="file" class="form-control" multiple id="productImage" name="image[]"
                                             required>
                                     </div>
                                     <div class="mt-5">
@@ -67,9 +83,9 @@
                     <div class="col-sm-4 mt-3">
                         <div class="card hover-shadow" data-aos="fade-up"
                             style="border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
-                            <a href="{{ asset('storage/products/' . $product->image) }}" data-lightbox="product"
+                            <a data-bs-toggle="modal" onclick="getProductDetail('{{ $product->id }}')" data-bs-target="#productDetail" data-lightbox="product"
                                 data-title="{{ $product->name }}">
-                                <img src="{{ asset('storage/products/' . $product->image) }}" alt="{{ $product->name }}"
+                                <img src="{{ asset('storage/products/' . $product->images[0]->image) }}" alt="{{ $product->name }}"
                                     class="card-img-top" style="object-fit: cover; border-radius: 20px 20px 0 0;">
                             </a>
                             <div class="card-body text-center" style="padding: 20px;">
@@ -83,11 +99,50 @@
                                         onclick="openEditModal('{{ $product->id }}')">Edit</button>
                                     <button class="btn btn-danger btn-sm"
                                         onclick="confirmDeleteProduct('{{ $product->id }}')">Delete</button>
+                                    <button class="btn btn-primary btn-sm" data-bs-toggle="modal" onclick="getProductDetail('{{ $product->id }}')" data-bs-target="#productDetail">Detail</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 @endforeach
+                <!-- Modal -->
+                <div class="modal fade" id="productDetail" tabindex="-1" aria-labelledby="productModalLabe" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-body" id="modalBody">
+                                <div class="d-flex justify-content-end">
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-5 p-5">
+                                        <img src="" alt="" id="detailProductImage" class="w-100 mb-4 rounded border-image">
+                                        <div class="list-image-container">
+                                            <div class="list-image-inner d-flex overflow-x-auto" id="detailProductImageList">
+                                                <img src="{{ asset('storage/products/1.png') }}" alt="" id="detailProductImage" class="img-fluid image-list">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 p-5">
+                                        <div class="mb-3">
+                                            <h3>
+                                                <span id="detailProductName" class="fw-bold text-uppercase"></span>
+                                            </h3>
+                                            <h5 id="detailProductCode" class="fw-bold text-info"></h5>
+                                            <small id="detailProductCategory" class="text-warning mt-3 text-uppercase fw-bold"></small>
+                                        </div>
+                                        <span class="badge bg-primary" id="detailProductSize" style="font-size: 12px;"></span>
+                                        <div class="mt-5">
+                                            <span class="fw-bold">Color :</span> <span id="detailProductColor" class="text-muted"></span>
+                                        </div>
+                                        <div class="mt-5">
+                                            <span class="fw-bold">Material :</span> <span id="detailProductMaterial" class="text-muted"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="d-flex justify-content-center mt-5 mb-5">
                 {{ $products->links('pagination::bootstrap-4') }}
@@ -104,7 +159,7 @@
                     <div class="form-check">
                         <a href="#" class="form-check-label text-success fw-bold text-decoration-none"
                             for="newCategory" data-bs-toggle="modal" data-bs-target="#addCategoryModal">
-                            <i class="fas fa-plus-circle"></i> Tambah Kategori
+                            <i class="fas fa-plus-circle"></i> Add Category
                         </a>
                     </div>
                     <form action="{{ asset('admin') }}" method="GET">
@@ -129,7 +184,7 @@
                         <div class="form-check">
                             <a href="#" class="form-check-label text-success fw-bold text-decoration-none"
                                 for="newCategory" data-bs-toggle="modal" data-bs-target="#addCategoryModal">
-                                <i class="fas fa-plus-circle"></i> Tambah Kategori
+                                <i class="fas fa-plus-circle"></i> Add Category
                             </a>
                         </div>
                     </div>
@@ -194,9 +249,9 @@
 <!-- Modal for Updating Product -->
 <div class="modal fade" id="updateProductModal" tabindex="-1" aria-labelledby="updateProductModalLabel"
     aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
-            <div class="modal-body">
+            <div class="modal-body p-5">
                 <form id="updateProductForm" action="{{ asset('admin/product/update') }}" method="post"
                     enctype="multipart/form-data">
                     @csrf
@@ -208,6 +263,26 @@
                             required>
                     </div>
                     <div class="mb-3">
+                        <label for="updateProductCode" class="form-label">Product Code</label>
+                        <input type="text" class="form-control rounded-3" id="updateProductCode" name="code"
+                            required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="updateProductColor" class="form-label">Product Color</label>
+                        <input type="text" class="form-control rounded-3" id="updateProductColor" name="color"
+                            required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="updateProductMaterial" class="form-label">Product Material</label>
+                        <input type="text" class="form-control rounded-3" id="updateProductMaterial" name="material"
+                            required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="updateProductSize" class="form-label">Product Size</label>
+                        <input type="text" class="form-control rounded-3" id="updateProductSize" name="size"
+                            required>
+                    </div>
+                    <div class="mb-3">
                         <label for="updateProductCategory" class="form-label">Category</label>
                         <select class="form-select" id="updateProductCategory" name="category_id" required>
                             @foreach ($categories as $category)
@@ -216,8 +291,22 @@
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label for="updateProductImage" class="form-label">Product Image</label>
-                        <input type="file" class="form-control" id="updateProductImage" name="image">
+                        <label for="updateProductImage" class="form-label">Product Image <small class="text-danger">* Max 4 Image</small></label>
+                        <input type="file" class="form-control" multiple id="updateProductImage" name="image[]">
+                    </div>
+                    <div class="mb-3" id="updateProductImageList" style="display: flex; flex-wrap: wrap;">
+                        <div class="image-list-container">
+                            <img src="{{ asset('storage/products/1.png') }}" alt="" class="img-fluid image-list">
+                            <span class="delete-icon"><i class="fas fa-trash text-danger"></i></span>
+                        </div>
+                        <div class="image-list-container">
+                            <img src="{{ asset('storage/products/1.png') }}" alt="" class="img-fluid image-list">
+                            <span class="delete-icon"><i class="fas fa-trash text-danger"></i></span>
+                        </div>
+                        <div class="image-list-container">
+                            <img src="{{ asset('storage/products/1.png') }}" alt="" class="img-fluid image-list">
+                            <span class="delete-icon"><i class="fas fa-trash text-danger"></i></span>
+                        </div>
                     </div>
                     <div class="mt-5">
                         <button type="submit" form="updateProductForm" class="btn btn-success">Update</button>
@@ -230,7 +319,37 @@
     </div>
 </div>
 
+<div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+        <div class="modal-body">
+                <h5 class="modal-title" id="errorModalLabel">Error</h5>
+                <p id="error-message"></p>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 @section('custom-js')
+@if ($errors->any())
+    <script>
+        var errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+        document.getElementById('error-message').innerText = '{{ $errors->first() }}';
+        errorModal.show();
+    </script>
+@endif
+@if (session('error'))
+    <script>
+        var errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+        document.getElementById('error-message').innerText = '{{ session('error') }}';
+        errorModal.show();
+    </script>
+@endif
 <script>
     function openUpdateModal(categoryName, categoryId) {
         document.getElementById('updateCategoryName').value = categoryName;
@@ -244,11 +363,19 @@
     function openEditModal(productId) {
         document.getElementById('updateProductId').value = productId;
         $.ajax({
-            url: "{{ asset('admin/product') }}/" + productId,
+            url: "{{ asset('collection/product') }}/" + productId,
             method: 'GET',
             success: function(response) {
                 document.getElementById('updateProductName').value = response.name;
+                document.getElementById('updateProductCode').value = response.code;
+                document.getElementById('updateProductColor').value = response.color;
+                document.getElementById('updateProductMaterial').value = response.material;
+                document.getElementById('updateProductSize').value = response.size;
                 document.getElementById('updateProductCategory').value = response.category_id;
+                $('#updateProductImageList').html('');
+                response.images.forEach(image => {
+                    $('#updateProductImageList').append('<div class="image-list-container" id="image-list-container-' + image.id + '"><img src="' + image.image + '" alt="" class="img-fluid image-list "><span class="delete-icon" onclick="deleteImage(' + image.id + ')"><i class="fas fa-trash text-danger"></i></span></div>');
+                });
             },
             error: function(xhr, status, error) {
                 console.error(xhr.responseText);
@@ -256,6 +383,32 @@
         });
         var updateModal = new bootstrap.Modal(document.getElementById('updateProductModal'));
         updateModal.show();
+    }
+
+    function deleteImage(imageId) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "{{ asset('/admin/product/image/delete') }}/" + imageId,
+                    method: 'GET',
+                    success: function(response) {
+                        if (response.success) {
+                            $('#image-list-container-' + image.id).remove();
+                        } else {
+                            alert(response.message);
+                        }
+                    }
+                });
+            }
+        });
     }
 </script>
 <script>
@@ -289,5 +442,35 @@
             }
         });
     }
+
+    function getProductDetail(id) {
+        $.ajax({
+            url: '{{asset('/collection/product/')}}/' + id,
+            method: 'GET',
+            success: function(data) {
+                handleAjaxResponse(data);
+            }
+        });
+    }
+
+    function handleAjaxResponse(response) {
+        $('#detailProductName').text(response.name);
+        $('#detailProductCode').text(response.code);
+        $('#detailProductCategory').text(response.category.name);
+        $('#detailProductColor').text(response.color);
+        $('#detailProductSize').text('Size: ' + response.size);
+        $('#detailProductMaterial').text(response.material);
+        $('#detailProductImage').attr('src', response.images[0].image);
+        $('#detailProductImageList').html('');
+        response.images.forEach(image => {
+            $('#detailProductImageList').append('<img src="' + image.image + '" alt="" class="img-fluid mb-3 image-list" onclick="changeProductImage(this)">');
+        });
+    }
+
+    function changeProductImage(image) {
+        $('#detailProductImage').attr('src', image.src);
+    }
+
 </script>
+
 @endsection

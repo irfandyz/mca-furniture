@@ -70,6 +70,13 @@
                                 <label for="userPassword" class="form-label">Password</label>
                                 <input type="password" class="form-control rounded-3" id="userPassword" name="password" required>
                             </div>
+                            <div class="mb-3">
+                                <label for="userRole" class="form-label">Role</label>
+                                <select name="role" id="userRole" class="form-select rounded-3">
+                                    <option value="admin">Admin</option>
+                                    <option value="superadmin">Super Admin</option>
+                                </select>
+                            </div>
                             <div class="mt-5">
                                 <button type="submit" form="addUserForm" class="btn btn-success">Add</button>
                                 <button type="button" class="btn btn-secondary btn-main"
@@ -102,6 +109,13 @@
                                 <label for="editUserPassword" class="form-label">Password</label>
                                 <input type="password" class="form-control rounded-3" id="editUserPassword" name="password">
                             </div>
+                            <div class="mb-3">
+                                <label for="editUserRole" class="form-label">Role</label>
+                                <select name="role" id="editUserRole" class="form-select rounded-3">
+                                    <option value="admin">Admin</option>
+                                    <option value="superadmin">Super Admin</option>
+                                </select>
+                            </div>
                             <div class="mt-5">
                                 <button type="submit" class="btn btn-success">Update</button>
                                 <button type="button" class="btn btn-secondary btn-main" data-bs-dismiss="modal">Close</button>
@@ -119,7 +133,8 @@
                         <th scope="col">No</th>
                         <th scope="col">Name</th>
                         <th scope="col">Email</th>
-                        <th scope="col">Actions</th>
+                        <th scope="col" class="text-center">Role</th>
+                        <th scope="col" class="text-center">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -129,8 +144,9 @@
                                 {{ $loop->iteration + $users->perPage() * ($users->currentPage() - 1) }}</th>
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>
-                            <td>
-                                <a href="#" class="btn btn-sm btn-warning" onclick="openEditModal({{ $user->id }}, '{{ $user->name }}', '{{ $user->email }}')">Edit</a>
+                            <td class="text-center">@if($user->role == 'superadmin') <span class="badge bg-success">Super Admin</span> @else <span class="badge bg-primary">Admin</span> @endif</td>
+                            <td class="text-center">
+                                <a href="#" class="btn btn-sm btn-warning" onclick="openEditModal({{ $user->id }}, '{{ $user->name }}', '{{ $user->email }}', '{{ $user->role }}')">Edit</a>
                                 <form action="{{ asset('admin/user/delete/' . $user->id) }}" method="post"
                                     style="display: inline-block;" onsubmit="return confirmDelete(event, this);">
                                     @csrf
@@ -201,11 +217,12 @@
     </script>
 
     <script>
-        function openEditModal(id, name, email) {
+        function openEditModal(id, name, email, role) {
             $('#editUserModal').modal('show');
             $('#editUserId').val(id);
             $('#editUserName').val(name);
             $('#editUserEmail').val(email);
+            $('#editUserRole').val(role);
         }
     </script>
 

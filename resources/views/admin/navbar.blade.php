@@ -12,14 +12,30 @@
                 <a href="{{ asset('/admin') }}" class="text-decoration-none navbar-text" style="font-weight: 500; letter-spacing: 0.5px; position: relative;">
                     Collection
                 </a>
+                @if (Auth::user()->role == 'superadmin')
                 <a href="{{ asset('/admin/user') }}" class="text-decoration-none navbar-text ms-5" style="font-weight: 500; letter-spacing: 0.5px; position: relative;">
                     Users
-                </a>
+                    </a>
+                @endif
                 <a href="{{ asset('/admin/message') }}" class="text-decoration-none navbar-text ms-5" style="font-weight: 500; letter-spacing: 0.5px; position: relative;">
                     Messages
-                </a>
+                    </a>
             </div>
-            <a href="{{ asset('/admin/logout') }}" class="btn btn-outline-danger" style="margin-right: 0;">Logout</a>
+            <div class="d-flex align-items-center justify-content-end">
+                <span class=""></span>
+                <div class="dropdown">
+                    <a class="dropdown-toggle d-flex align-items-center text-muted me-2 text-decoration-none" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                        Welcome, {{ Auth::user()->name }}
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink">
+                        <li class="dropdown-item">
+                            <p class="text-dark small"><span class="fw-bold">Name:</span> {{ Auth::user()->name }}</p>
+                            <p class="text-dark small"><span class="fw-bold">Email:</span> {{ Auth::user()->email }}</p>
+                            <p class="text-dark small"><span class="fw-bold">Role:</span> {{ Auth::user()->role }}</p>
+                        <li><a class="dropdown-item text-danger" href="{{ asset('/admin/logout') }}"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
 </nav>

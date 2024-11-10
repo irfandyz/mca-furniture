@@ -1,3 +1,6 @@
+@section('css')
+
+@endsection
 <div class="row p-5">
     <div class="col-md-9">
         <div class="container">
@@ -10,12 +13,12 @@
                     </button>
                 </div>
             </form>
-            <div class="row">
+            <div class="row mb-5">
                 @foreach ($products as $product)
                 <div class="col-sm-4 mt-3">
-                    <div class="card hover-shadow" data-aos="fade-up" style="border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
-                        <a href="{{ asset('storage/products/' . $product->image) }}" data-lightbox="product" data-title="{{ $product->name }}">
-                            <img src="{{ asset('storage/products/' . $product->image) }}" alt="{{ $product->name }}" class="card-img-top" style="object-fit: cover; border-radius: 20px 20px 0 0;">
+                    <div class="card hover-shadow" data-aos="fade-up" style="border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);" data-bs-toggle="modal" onclick="getProductDetail('{{ $product->id }}')" data-bs-target="#productDetail">
+                        <a data-lightbox="product" data-title="{{ $product->name }}">
+                            <img src="{{ asset('storage/products/' . $product->images[0]->image) }}" alt="{{ $product->name }}" class="card-img-top" style="object-fit: cover; border-radius: 20px 20px 0 0;">
                         </a>
                         <div class="card-body text-center" style="padding: 20px;">
                             <h5 class="card-title" style="font-family: 'Montserrat', sans-serif; font-weight: bold; font-size: 18px; color: #4F2B00;">{{ $product->name }}</h5>
@@ -28,6 +31,45 @@
                     </div>
                 </div>
                 @endforeach
+
+                <!-- Modal -->
+                <div class="modal fade" id="productDetail" tabindex="-1" aria-labelledby="productModalLabe" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-body" id="modalBody">
+                                <div class="d-flex justify-content-end">
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-5 p-5">
+                                        <img src="" alt="" id="productImage" class="w-100 mb-3 border-image rounded">
+                                        <div class="list-image-container">
+                                            <div class="list-image-inner d-flex overflow-x-auto" id="productImageList">
+                                                <img src="{{ asset('storage/products/1.png') }}" alt="" id="productImage" class="img-fluid image-list">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 p-5">
+                                        <div class="mb-3">
+                                            <h3>
+                                                <span id="productName" class="fw-bold text-uppercase"></span>
+                                            </h3>
+                                            <h5 id="productCode" class="fw-bold text-info"></h5>
+                                            <small id="productCategory" class="text-warning mt-3 text-uppercase fw-bold"></small>
+                                        </div>
+                                        <span class="badge bg-primary" id="productSize" style="font-size: 12px;"></span>
+                                        <div class="mt-5">
+                                            <span class="fw-bold">Color :</span> <span id="productColor" class="text-muted"></span>
+                                        </div>
+                                        <div class="mt-5">
+                                            <span class="fw-bold">Material :</span> <span id="productMaterial" class="text-muted"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -54,3 +96,40 @@
         </div>
     </div>
 </div>
+
+@section('script')
+
+<script>
+
+    function getProductDetail(id) {
+        $.ajax({
+            url: '{{asset('/collection/product/')}}/' + id,
+            method: 'GET',
+            success: function(data) {
+                handleAjaxResponse(data);
+            }
+        });
+    }
+
+
+
+    function handleAjaxResponse(response) {
+        $('#productName').text(response.name.charAt(0).toUpperCase() + response.name.slice(1));
+        $('#productCode').text(response.code);
+        $('#productCategory').text(response.category.name.charAt(0).toUpperCase() + response.category.name.slice(1));
+        $('#productColor').text(response.color.charAt(0).toUpperCase() + response.color.slice(1));
+        $('#productSize').text('Size: ' + response.size.charAt(0).toUpperCase() + response.size.slice(1));
+        $('#productMaterial').text(response.material.charAt(0).toUpperCase() + response.material.slice(1));
+        $('#productImage').attr('src', response.images[0].image);
+        $('#productImageList').html('');
+        response.images.forEach(image => {
+            $('#productImageList').append('<img src="' + image.image + '" alt="" class="img-fluid image-list mb-3" onclick="changeProductImage(this)">');
+        });
+    }
+
+    function changeProductImage(image) {
+        $('#productImage').attr('src', image.src);
+    }
+</script>
+
+@endsection
