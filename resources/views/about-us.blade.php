@@ -1,4 +1,4 @@
-<section class="about-us py-3 py-md-5 mt-5" data-aos="fade-up">
+<section class="about-us py-3 py-md-5 mt-5" data-aos="fade-up" id="about">
     <div class="container">
         <div class="row align-items-center">
             <div class="col-12 col-lg-6 mb-4 mb-lg-0" data-aos="fade-right" data-aos-delay="200">
@@ -8,7 +8,8 @@
             </div>
             <div class="col-12 col-lg-6" data-aos="fade-left" data-aos-delay="300">
                 <h2 class="section-about-us-title text-center text-lg-start mb-2 mb-md-3">\ About Us \</h2>
-                <h3 class="section-about-us-subtitle text-center text-lg-start mb-3 mb-md-4">CV. Mandiri Cipta Adikarya</h3>
+                <h3 class="section-about-us-subtitle text-center text-lg-start mb-3 mb-md-4">CV. Mandiri Cipta Adikarya
+                </h3>
                 <p class="section-about-us-description px-2 px-md-3 px-lg-0 mb-0 text-sm-justify text-md-justify">
                     CV. Mandiri Cipta Adikarya (mcafurniturel is a leading manufacturer and exporter of high-quality
                     rattan, wood, and iron furniture, based in Cirebon, West Java, Indonesia, since 2011. With over

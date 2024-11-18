@@ -1,4 +1,4 @@
-<section class="product" id="product" data-aos="fade-up">
+<section class="product" id="product" data-aos="fade-up" id="product">
     <div class="container">
         <div class="row">
             <div class="col-12 text-center mb-4 mb-lg-5" data-aos="fade-up" data-aos-delay="100">
