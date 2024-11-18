@@ -4,11 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mandiri Cipta Adikarya</title>
-    <meta name="description" content="Mandiri Cipta Adikarya is a leading company in the field of furniture manufacturing, offering a wide range of high-quality products for home and office use.">
-    <meta name="author" content="CV. Mandiri Cipta Adikarya">
+    <title>{{ App\Models\Setting::first()->title }}</title>
+    <meta name="description" content="{{ App\Models\Setting::first()->meta_description }}">
+    <meta name="author" content="{{ App\Models\Setting::first()->meta_author }}">
 
-    <link rel="icon" href="{{ asset('assets/img/logo/logo.png') }}" type="image/png">
+    <link rel="icon" href="{{ asset('assets/img/logo/' . App\Models\Setting::first()->logo) }}" type="image/png">
     {{-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> --}}
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/custom/style.css') }}">

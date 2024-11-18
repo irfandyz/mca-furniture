@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-light fixed-top bg-white shadow-sm" style="transition: all 0.3s ease;">
     <div class="container">
         <a class="navbar-brand" href="#">
-            <img src="{{ asset('assets/img/logo/logo.png') }}" alt="Logo" style="height: 45px; transition: transform 0.3s ease;">
+            <img src="{{ asset('logos/' . App\Models\Setting::first()->logo) }}" alt="Logo" style="height: 45px; transition: transform 0.3s ease;">
         </a>
         <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">

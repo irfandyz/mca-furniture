@@ -6,7 +6,7 @@
         </button>
         <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
             <a class="navbar-brand" href="#" style="margin-left: 0;">
-                <img src="{{ asset('assets/img/logo/logo.png') }}" alt="Logo" style="height: 45px; transition: transform 0.3s ease;">
+                <img src="{{ asset('logos/' . App\Models\Setting::first()->logo) }}" alt="Logo" style="height: 45px; transition: transform 0.3s ease;">
             </a>
             <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
                 <a href="{{ asset('/admin') }}" class="text-decoration-none navbar-text" style="font-weight: 500; letter-spacing: 0.5px; position: relative;">
@@ -17,8 +17,14 @@
                     Users
                     </a>
                 @endif
+                <a href="{{ asset('/admin/slider') }}" class="text-decoration-none navbar-text ms-5" style="font-weight: 500; letter-spacing: 0.5px; position: relative;">
+                    Slider
+                </a>
                 <a href="{{ asset('/admin/message') }}" class="text-decoration-none navbar-text ms-5" style="font-weight: 500; letter-spacing: 0.5px; position: relative;">
                     Messages
+                </a>
+                <a href="{{ asset('/admin/setting') }}" class="text-decoration-none navbar-text ms-5" style="font-weight: 500; letter-spacing: 0.5px; position: relative;">
+                    Setting
                     </a>
             </div>
             <div class="d-flex align-items-center justify-content-end">

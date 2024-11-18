@@ -38,7 +38,7 @@
                         <i class="fas fa-phone-alt mt-1 me-3"></i>
                         <div>
                             <h6 class="mb-1">Phone</h6>
-                            <p class="mb-0">502-555-0152</p>
+                            <p class="mb-0">{{ App\Models\Setting::first()->phone }}</p>
                         </div>
                     </div>
 
@@ -46,7 +46,7 @@
                         <i class="fas fa-envelope mt-1 me-3"></i>
                         <div>
                             <h6 class="mb-1">Email</h6>
-                            <p class="mb-0 text-break">brita@firstupconsultants.com</p>
+                            <p class="mb-0 text-break">{{ App\Models\Setting::first()->email }}</p>
                         </div>
                     </div>
 
@@ -54,25 +54,25 @@
                         <i class="fas fa-map-marker-alt mt-1 me-3"></i>
                         <div>
                             <h6 class="mb-1">Address</h6>
-                            <p class="mb-0">Jl. Suryanegara Blok Sidampul RT 04 RW 01<br>Desa Pamijahan Kec. Plumbon Kab. Cirebon<br>45159 - Indonesia</p>
+                            <p class="mb-0">{{ App\Models\Setting::first()->address }}</p>
                         </div>
                     </div>
 
                     <h6 class="mb-3">Follow Us</h6>
                     <div class="social-links d-flex align-items-center">
-                        <a href="#" class="social-icon me-3 mb-2 transition-all hover-lift">
+                        <a href="{{ App\Models\Setting::first()->linkedin }}" class="social-icon me-3 mb-2 transition-all hover-lift">
                             <i class="fab fa-linkedin-in fa-lg"></i>
                         </a>
-                        <a href="#" class="social-icon me-3 mb-2 transition-all hover-lift">
+                        <a href="{{ App\Models\Setting::first()->facebook }}" class="social-icon me-3 mb-2 transition-all hover-lift">
                             <i class="fab fa-facebook-f fa-lg"></i>
                         </a>
-                        <a href="#" class="social-icon me-3 mb-2 transition-all hover-lift">
+                        <a href="{{ App\Models\Setting::first()->instagram }}" class="social-icon me-3 mb-2 transition-all hover-lift">
                             <i class="fab fa-instagram fa-lg"></i>
                         </a>
-                        <a href="#" class="social-icon me-3 mb-2 transition-all hover-lift">
+                        <a href="{{ App\Models\Setting::first()->twitter }}" class="social-icon me-3 mb-2 transition-all hover-lift">
                             <i class="fab fa-twitter fa-lg"></i>
                         </a>
-                        <a href="#" class="social-icon me-3 mb-2 transition-all hover-lift">
+                        <a href="{{ App\Models\Setting::first()->youtube }}" class="social-icon me-3 mb-2 transition-all hover-lift">
                             <i class="fab fa-youtube fa-lg"></i>
                         </a>
                     </div>

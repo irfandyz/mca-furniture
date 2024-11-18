@@ -9,10 +9,8 @@ class Product extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'name',
-        'category_id',
-        'image'
+    protected $guarded = [
+        'id',
     ];
 
     // Relasi dengan kategori

@@ -6,6 +6,8 @@ use App\Models\Category;
 use App\Models\Image;
 use App\Models\Message;
 use App\Models\Product;
+use App\Models\Setting;
+use App\Models\Slider;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,7 +15,8 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 
 Route::get('/', function () {
-    return view('index');
+    $sliders = Slider::all();
+    return view('index', compact('sliders'));
 });
 Route::get('/collection', function () {
     $products = Product::paginate(9);
@@ -33,7 +36,7 @@ Route::get('/collection/product/{id}', function ($id) {
     $product = Product::with('category', 'images')->find($id);
     $product->imageCount = $product->images->count();
     foreach ($product->images as $image) {
-        $image->image = asset('storage/products/' . $image->image);
+        $image->image = asset('products/' . $image->image);
     }
     return response()->json($product);
 });
@@ -59,6 +62,7 @@ Route::post('/login/auth', function (Request $request) {
 
 Route::middleware(AuthMiddleware::class)->group(function () {
 
+    // User
     Route::middleware(SuperAdminMiddleware::class)->group(function () {
         Route::get('/admin/user', function (request $request) {
             $users = User::paginate(10);
@@ -120,6 +124,8 @@ Route::middleware(AuthMiddleware::class)->group(function () {
             return redirect()->back();
         });
     });
+
+    // Message
     Route::get('/admin/message', function (request $request) {
         $messages = Message::paginate(10);
         if ($keyword = request()->get('keyword')) {
@@ -137,6 +143,8 @@ Route::middleware(AuthMiddleware::class)->group(function () {
         $message->delete();
         return redirect()->back();
     });
+
+    // Product
     Route::get('/admin', function (request $request) {
         $categories = Category::all();
         $products = Product::paginate(8);
@@ -161,23 +169,26 @@ Route::middleware(AuthMiddleware::class)->group(function () {
             'name' => 'required|string|max:255',
             'category_id' => 'required|integer|exists:categories,id',
             'image' => 'required',
-            'size' => 'required|string|max:255',
+            'size_height' => 'required|string|max:255',
+            'size_width' => 'required|string|max:255',
+            'size_length' => 'required|string|max:255',
             'color' => 'required|string|max:255',
             'material' => 'required|string|max:255',
             'image.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
-
         $images = $request->file('image');
         $imageData = [];
         foreach ($images as $image) {
-            $imageName = time() . '_' . $image->getClientOriginalName();
-            $image->storeAs('products', $imageName, 'public');
+            $imageName = time() . '_' . $image->getClientOriginalExtension();
+            $image->move(public_path('products'), $imageName);
             $imageData[] = $imageName;
         }
         $product = Product::create([
             'name' => $request->name,
             'category_id' => $request->category_id,
-            'size' => $request->size,
+            'size_height' => $request->size_height,
+            'size_width' => $request->size_width,
+            'size_length' => $request->size_length,
             'color' => $request->color,
             'material' => $request->material,
         ]);
@@ -196,8 +207,8 @@ Route::middleware(AuthMiddleware::class)->group(function () {
             return redirect()->back()->withErrors(['success' => false, 'message' => 'Product not found']);
         }
         foreach ($product->images as $image) {
-            if (Storage::disk('public')->exists('products/' . $image->image)) {
-                Storage::disk('public')->delete('products/' . $image->image);
+            if (file_exists(public_path('products/' . $image->image))) {
+                unlink(public_path('products/' . $image->image));
             }
         }
         $product->delete();
@@ -213,10 +224,10 @@ Route::middleware(AuthMiddleware::class)->group(function () {
         if ($countImage == 1) {
             return response()->json(['success' => false, 'message' => 'Product must have at least 1 image']);
         }
-        $image->delete();
-        if (Storage::disk('public')->exists('products/' . $image->image)) {
-            Storage::disk('public')->delete('products/' . $image->image);
+        if (file_exists(public_path('products/' . $image->image))) {
+            unlink(public_path('products/' . $image->image));
         }
+        $image->delete();
         return response()->json(['success' => true, 'message' => 'Image deleted successfully']);
     });
 
@@ -229,7 +240,9 @@ Route::middleware(AuthMiddleware::class)->group(function () {
             'image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'color' => 'required|string|max:255',
             'material' => 'required|string|max:255',
-            'size' => 'required|string|max:255',
+            'size_height' => 'required|string|max:255',
+            'size_width' => 'required|string|max:255',
+            'size_length' => 'required|string|max:255',
         ]);
 
         $product = Product::find($request->id);
@@ -238,7 +251,9 @@ Route::middleware(AuthMiddleware::class)->group(function () {
             'category_id' => $request->category_id,
             'color' => $request->color,
             'material' => $request->material,
-            'size' => $request->size,
+            'size_height' => $request->size_height,
+            'size_width' => $request->size_width,
+            'size_length' => $request->size_length,
         ]);
 
         if ($request->hasFile('image')) {
@@ -249,7 +264,7 @@ Route::middleware(AuthMiddleware::class)->group(function () {
             }
             foreach ($request->file('image') as $image) {
                 $imageName = time() . rand(1111, 9999) . '.' . $image->getClientOriginalExtension();
-                $image->storeAs('products', $imageName, 'public');
+                $image->move(public_path('products'), $imageName);
                 Image::create([
                     'product_id' => $product->id,
                     'image' => $imageName,
@@ -265,6 +280,8 @@ Route::middleware(AuthMiddleware::class)->group(function () {
         $product = Product::find($id);
         return response()->json($product);
     });
+
+    // Category
 
     Route::get('/admin/category/delete/{id}', function ($id) {
         $category = Category::find($id);
@@ -284,6 +301,101 @@ Route::middleware(AuthMiddleware::class)->group(function () {
         $category->name = $request->name;
         $category->save();
         return redirect()->back();
+    });
+
+    // Slider
+
+    Route::get('/admin/slider', function (request $request) {
+        $sliders = Slider::paginate(5);
+        return view('admin.slider', compact('sliders'));
+    });
+
+    Route::post('/admin/slider/store', function (Request $request) {
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        if (Slider::count() >= 4) {
+            return redirect()->back()->with('error', 'Max 4 Slider');
+        }
+
+        $imageName = time() . rand(1111, 9999) . '.' . $request->file('image')->getClientOriginalExtension();
+        $request->file('image')->move(public_path('sliders'), $imageName);
+        Slider::create([
+            'image' => $imageName,
+        ]);
+        return redirect()->back();
+    });
+
+    Route::post('/admin/slider/update', function (Request $request) {
+        $slider = Slider::find($request->id);
+
+        if ($request->hasFile('image')) {
+            if (file_exists(public_path('sliders/' . $slider->image))) {
+                unlink(public_path('sliders/' . $slider->image));
+            }
+            $imageName = time() . rand(1111, 9999) . '.' . $request->file('image')->getClientOriginalExtension();
+            $request->file('image')->move(public_path('sliders'), $imageName);
+            $slider->image = $imageName;
+        }
+        $slider->save();
+        return redirect()->back();
+    });
+
+    Route::get('/admin/slider/{id}', function ($id) {
+        $slider = Slider::find($id);
+        if (file_exists(public_path('sliders/' . $slider->image))) {
+            unlink(public_path('sliders/' . $slider->image));
+        }
+        $slider->delete();
+        return redirect()->back()->with('success', 'Slider deleted successfully');
+    });
+
+    // Setting
+
+    Route::get('/admin/setting', function (request $request) {
+        $settings = Setting::first();
+        return view('admin.setting', compact('settings'));
+    });
+
+    Route::post('/admin/setting/update', function (Request $request) {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'linkedin' => 'nullable|string|max:255',
+            'facebook' => 'nullable|string|max:255',
+            'instagram' => 'nullable|string|max:255',
+            'twitter' => 'nullable|string|max:255',
+            'youtube' => 'nullable|string|max:255',
+            'meta_description' => 'nullable|string|max:255',
+            'meta_author' => 'nullable|string|max:255',
+            'copyright' => 'nullable|string|max:255',
+        ]);
+        $setting = Setting::first();
+        if ($request->hasFile('logo')) {
+            if (file_exists(public_path('logos/' . $setting->logo))) {
+                unlink(public_path('logos/' . $setting->logo));
+            }
+            $imageName = time() . rand(1111, 9999) . '.' . $request->file('logo')->getClientOriginalExtension();
+            $request->file('logo')->move(public_path('logos'), $imageName);
+            $setting->logo = $imageName;
+        }
+        $setting->update([
+            'title' => $request->title,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'address' => $request->address,
+            'linkedin' => $request->linkedin,
+            'facebook' => $request->facebook,
+            'instagram' => $request->instagram,
+            'twitter' => $request->twitter,
+            'youtube' => $request->youtube,
+            'meta_description' => $request->meta_description,
+            'meta_author' => $request->meta_author,
+            'copyright' => $request->copyright,
+            'logo' => $setting->logo,
+        ]);
+        return redirect()->back()->with('success', 'Setting updated successfully');
     });
 
 });

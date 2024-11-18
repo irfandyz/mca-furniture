@@ -18,7 +18,7 @@
                 <div class="col-sm-4 mt-3">
                     <div class="card hover-shadow" data-aos="fade-up" style="border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);" data-bs-toggle="modal" onclick="getProductDetail('{{ $product->id }}')" data-bs-target="#productDetail">
                         <a data-lightbox="product" data-title="{{ $product->name }}">
-                            <img src="{{ asset('storage/products/' . $product->images[0]->image) }}" alt="{{ $product->name }}" class="card-img-top" style="object-fit: cover; border-radius: 20px 20px 0 0;">
+                            <img src="{{ asset('products/' . $product->images[0]->image) }}" alt="{{ $product->name }}" class="card-img-top" style="object-fit: cover; border-radius: 20px 20px 0 0;">
                         </a>
                         <div class="card-body text-center" style="padding: 20px;">
                             <h5 class="card-title" style="font-family: 'Montserrat', sans-serif; font-weight: bold; font-size: 18px; color: #4F2B00;">{{ $product->name }}</h5>
@@ -31,6 +31,16 @@
                     </div>
                 </div>
                 @endforeach
+
+                @if($products->isEmpty())
+                    <div class="col-12 text-center">
+                        <h5 class="text-muted">No products found</h5>
+                    </div>
+                @endif
+
+                <div class="d-flex justify-content-center mt-5">
+                    {{ $products->links('pagination::bootstrap-4') }}
+                </div>
 
                 <!-- Modal -->
                 <div class="modal fade" id="productDetail" tabindex="-1" aria-labelledby="productModalLabe" aria-hidden="true">
@@ -45,7 +55,7 @@
                                         <img src="" alt="" id="productImage" class="w-100 mb-3 border-image rounded">
                                         <div class="list-image-container">
                                             <div class="list-image-inner d-flex overflow-x-auto" id="productImageList">
-                                                <img src="{{ asset('storage/products/1.png') }}" alt="" id="productImage" class="img-fluid image-list">
+                                                <img src="{{ asset('products/1.png') }}" alt="" id="productImage" class="img-fluid image-list">
                                             </div>
                                         </div>
                                     </div>
@@ -57,7 +67,15 @@
                                             <h5 id="productCode" class="fw-bold text-info"></h5>
                                             <small id="productCategory" class="text-warning mt-3 text-uppercase fw-bold"></small>
                                         </div>
-                                        <span class="badge bg-primary" id="productSize" style="font-size: 12px;"></span>
+                                        <span class="badge bg-primary" style="font-size: 12px;">
+                                            Width : <span id="detailProductSizeWidth"></span> cm
+                                        </span>
+                                        <span class="badge bg-primary" style="font-size: 12px;">
+                                            Length : <span id="detailProductSizeLength"></span> cm
+                                        </span>
+                                        <span class="badge bg-primary" style="font-size: 12px;">
+                                            Height : <span id="detailProductSizeHeight"></span> cm
+                                        </span>
                                         <div class="mt-5">
                                             <span class="fw-bold">Color :</span> <span id="productColor" class="text-muted"></span>
                                         </div>
@@ -118,7 +136,9 @@
         $('#productCode').text(response.code);
         $('#productCategory').text(response.category.name.charAt(0).toUpperCase() + response.category.name.slice(1));
         $('#productColor').text(response.color.charAt(0).toUpperCase() + response.color.slice(1));
-        $('#productSize').text('Size: ' + response.size.charAt(0).toUpperCase() + response.size.slice(1));
+        $('#detailProductSizeHeight').text(response.size_height);
+        $('#detailProductSizeWidth').text(response.size_width);
+        $('#detailProductSizeLength').text(response.size_length);
         $('#productMaterial').text(response.material.charAt(0).toUpperCase() + response.material.slice(1));
         $('#productImage').attr('src', response.images[0].image);
         $('#productImageList').html('');

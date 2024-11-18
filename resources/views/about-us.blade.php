@@ -1,5 +1,6 @@
 <section class="about-us py-3 py-md-5 mt-5" data-aos="fade-up" id="about">
     <div class="container">
+        <h2 class="section-about-us-title text-center mb-5">\ About Us \</h2>
         <div class="row align-items-center">
             <div class="col-12 col-lg-6 mb-4 mb-lg-0" data-aos="fade-right" data-aos-delay="200">
                 <img src="{{ asset('assets/img/section/about-us.jpg') }}" alt="About Us"
@@ -7,7 +8,6 @@
                     style="box-shadow: 0 4px 15px rgba(0,0,0,0.1); transition: transform 0.3s ease;">
             </div>
             <div class="col-12 col-lg-6" data-aos="fade-left" data-aos-delay="300">
-                <h2 class="section-about-us-title text-center text-lg-start mb-2 mb-md-3">\ About Us \</h2>
                 <h3 class="section-about-us-subtitle text-center text-lg-start mb-3 mb-md-4">CV. Mandiri Cipta Adikarya
                 </h3>
                 <p class="section-about-us-description px-2 px-md-3 px-lg-0 mb-0 text-sm-justify text-md-justify">

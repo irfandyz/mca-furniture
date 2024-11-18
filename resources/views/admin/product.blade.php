@@ -49,11 +49,32 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="productMaterial" class="form-label">Product Material</label>
-                                        <input type="text" class="form-control rounded-3" id="productMaterial" name="material" required>
+                                        <textarea class="form-control rounded-3" id="productMaterial" name="material" required></textarea>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="productSize" class="form-label">Product Size</label>
-                                        <input type="text" class="form-control rounded-3" id="productSize" name="size" required>
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <label for="size_length" class="form-label">Length</label>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" id="size_length" name="size_length" required>
+                                                    <span class="input-group-text">cm</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-4">
+                                                <label for="size_height" class="form-label">Height</label>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" id="size_height" name="size_height" required>
+                                                    <span class="input-group-text">cm</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-4">
+                                                <label for="size_width" class="form-label">Width</label>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" id="size_width" name="size_width" required>
+                                                    <span class="input-group-text">cm</span>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="mb-3">
                                         <label for="productCategory" class="form-label">Category</label>
@@ -85,7 +106,7 @@
                             style="border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
                             <a data-bs-toggle="modal" onclick="getProductDetail('{{ $product->id }}')" data-bs-target="#productDetail" data-lightbox="product"
                                 data-title="{{ $product->name }}">
-                                <img src="{{ asset('storage/products/' . $product->images[0]->image) }}" alt="{{ $product->name }}"
+                                <img src="{{ asset('products/' . $product->images[0]->image) }}" alt="{{ $product->name }}"
                                     class="card-img-top" style="object-fit: cover; border-radius: 20px 20px 0 0;">
                             </a>
                             <div class="card-body text-center" style="padding: 20px;">
@@ -118,7 +139,7 @@
                                         <img src="" alt="" id="detailProductImage" class="w-100 mb-4 rounded border-image">
                                         <div class="list-image-container">
                                             <div class="list-image-inner d-flex overflow-x-auto" id="detailProductImageList">
-                                                <img src="{{ asset('storage/products/1.png') }}" alt="" id="detailProductImage" class="img-fluid image-list">
+                                                <img src="{{ asset('products/1.png') }}" alt="" id="detailProductImage" class="img-fluid image-list">
                                             </div>
                                         </div>
                                     </div>
@@ -130,7 +151,15 @@
                                             <h5 id="detailProductCode" class="fw-bold text-info"></h5>
                                             <small id="detailProductCategory" class="text-warning mt-3 text-uppercase fw-bold"></small>
                                         </div>
-                                        <span class="badge bg-primary" id="detailProductSize" style="font-size: 12px;"></span>
+                                        <span class="badge bg-primary" style="font-size: 12px;">
+                                            Length : <span id="detailProductSizeLength"></span> cm
+                                        </span>
+                                        <span class="badge bg-primary" style="font-size: 12px;">
+                                            Height : <span id="detailProductSizeHeight"></span> cm
+                                        </span>
+                                        <span class="badge bg-primary" style="font-size: 12px;">
+                                            Width : <span id="detailProductSizeWidth"></span> cm
+                                        </span>
                                         <div class="mt-5">
                                             <span class="fw-bold">Color :</span> <span id="detailProductColor" class="text-muted"></span>
                                         </div>
@@ -278,9 +307,29 @@
                             required>
                     </div>
                     <div class="mb-3">
-                        <label for="updateProductSize" class="form-label">Product Size</label>
-                        <input type="text" class="form-control rounded-3" id="updateProductSize" name="size"
-                            required>
+                        <div class="row">
+                            <div class="col-4">
+                                <label for="size_length" class="form-label">Length</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" id="updateProductSizeLength" name="size_length" required>
+                                    <span class="input-group-text">cm</span>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <label for="size_height" class="form-label">Height</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" id="updateProductSizeHeight" name="size_height" required>
+                                    <span class="input-group-text">cm</span>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <label for="size_width" class="form-label">Width</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" id="updateProductSizeWidth" name="size_width" required>
+                                    <span class="input-group-text">cm</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="mb-3">
                         <label for="updateProductCategory" class="form-label">Category</label>
@@ -296,15 +345,15 @@
                     </div>
                     <div class="mb-3" id="updateProductImageList" style="display: flex; flex-wrap: wrap;">
                         <div class="image-list-container">
-                            <img src="{{ asset('storage/products/1.png') }}" alt="" class="img-fluid image-list">
+                            <img src="{{ asset('products/1.png') }}" alt="" class="img-fluid image-list">
                             <span class="delete-icon"><i class="fas fa-trash text-danger"></i></span>
                         </div>
                         <div class="image-list-container">
-                            <img src="{{ asset('storage/products/1.png') }}" alt="" class="img-fluid image-list">
+                            <img src="{{ asset('products/1.png') }}" alt="" class="img-fluid image-list">
                             <span class="delete-icon"><i class="fas fa-trash text-danger"></i></span>
                         </div>
                         <div class="image-list-container">
-                            <img src="{{ asset('storage/products/1.png') }}" alt="" class="img-fluid image-list">
+                            <img src="{{ asset('products/1.png') }}" alt="" class="img-fluid image-list">
                             <span class="delete-icon"><i class="fas fa-trash text-danger"></i></span>
                         </div>
                     </div>
@@ -370,7 +419,9 @@
                 document.getElementById('updateProductCode').value = response.code;
                 document.getElementById('updateProductColor').value = response.color;
                 document.getElementById('updateProductMaterial').value = response.material;
-                document.getElementById('updateProductSize').value = response.size;
+                document.getElementById('updateProductSizeHeight').value = response.size_height;
+                document.getElementById('updateProductSizeWidth').value = response.size_width;
+                document.getElementById('updateProductSizeLength').value = response.size_length;
                 document.getElementById('updateProductCategory').value = response.category_id;
                 $('#updateProductImageList').html('');
                 response.images.forEach(image => {

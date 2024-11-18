@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mandiri Cipta Adikarya</title>
+    <title>{{ App\Models\Setting::first()->title }}</title>
     <meta name="description" content="Mandiri Cipta Adikarya is a leading company in the field of furniture manufacturing, offering a wide range of high-quality products for home and office use.">
     <meta name="author" content="CV. Mandiri Cipta Adikarya">
 

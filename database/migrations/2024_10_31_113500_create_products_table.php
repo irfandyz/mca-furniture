@@ -17,8 +17,10 @@ return new class extends Migration
             $table->string('code')->nullable();
             $table->foreignId('category_id')->nullable()->constrained('categories')->cascadeOnUpdate()->nullOnDelete();
             $table->string('color')->nullable();
-            $table->string('size')->nullable();
-            $table->string('material')->nullable();
+            $table->string('size_height')->nullable();
+            $table->string('size_width')->nullable();
+            $table->string('size_length')->nullable();
+            $table->text('material')->nullable();
             $table->timestamps();
         });
 
