@@ -8,6 +8,7 @@ use App\Models\Message;
 use App\Models\Product;
 use App\Models\Setting;
 use App\Models\Slider;
+use App\Models\News;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -414,6 +415,86 @@ Route::middleware(AuthMiddleware::class)->group(function () {
             'logo' => $setting->logo,
         ]);
         return redirect()->back()->with('success', 'Setting updated successfully');
+    });
+
+    // News
+
+    Route::get('/admin/news', function (request $request) {
+        $news = News::orderBy('id', 'desc')->paginate(5);
+        return view('admin.news', compact('news'));
+    });
+
+    Route::post('/admin/news/store', function (Request $request) {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'date' => 'required|string|max:255',
+            'month' => 'required|string|max:255',
+            'year' => 'required|integer',
+        ]);
+
+        if (News::count() >= 5) {
+            return redirect()->back()->with('error', 'Max 5 News');
+        }
+
+        $imageName = time() . rand(1111, 9999) . '.' . $request->file('image')->getClientOriginalExtension();
+        $request->file('image')->move(public_path('news'), $imageName);
+        News::create([
+            'title' => $request->title,
+            'content' => $request->content,
+            'image' => $imageName,
+            'date' => $request->date,
+            'month' => $request->month,
+            'year' => $request->year,
+        ]);
+
+        return redirect()->back()->with('success', 'News created successfully');
+    });
+
+    Route::get('/admin/news/{id}', function ($id) {
+        $news = News::find($id);
+        if (!$news) {
+            abort(404);
+        }
+        if (file_exists(public_path('news/' . $news->image))) {
+            unlink(public_path('news/' . $news->image));
+        }
+        $news->delete();
+
+        return redirect()->back()->with('success', 'News deleted successfully');
+    });
+
+    Route::get('/admin/news/get/{id}', function ($id) {
+        $news = News::find($id);
+        return response()->json($news);
+    });
+
+    Route::post('/admin/news/update', function (Request $request) {
+        $request->validate([
+            'id' => 'required|integer|exists:news,id',
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        $news = News::find($request->id);
+        if ($request->hasFile('image')) {
+            if (file_exists(public_path('news/' . $news->image))) {
+                unlink(public_path('news/' . $news->image));
+            }
+            $imageName = time() . rand(1111, 9999) . '.' . $request->file('image')->getClientOriginalExtension();
+            $request->file('image')->move(public_path('news'), $imageName);
+        }
+        $news->update([
+            'title' => $request->title,
+            'content' => $request->content,
+            'image' => $imageName,
+            'date' => $request->date,
+            'month' => $request->month,
+            'year' => $request->year,
+        ]);
+        return redirect()->back()->with('success', 'News updated successfully');
     });
 
 });

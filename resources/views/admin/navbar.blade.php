@@ -23,6 +23,9 @@
                 <a href="{{ asset('/admin/message') }}" class="text-decoration-none navbar-text ms-5" style="font-weight: 500; letter-spacing: 0.5px; position: relative;">
                     Messages
                 </a>
+                <a href="{{ asset('/admin/news') }}" class="text-decoration-none navbar-text ms-5" style="font-weight: 500; letter-spacing: 0.5px; position: relative;">
+                    News
+                </a>
                 <a href="{{ asset('/admin/setting') }}" class="text-decoration-none navbar-text ms-5" style="font-weight: 500; letter-spacing: 0.5px; position: relative;">
                     Setting
                     </a>
