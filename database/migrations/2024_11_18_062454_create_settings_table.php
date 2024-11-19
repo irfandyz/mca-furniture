@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('meta_description');
             $table->string('meta_author');
             $table->string('copyright');
+            $table->string('map');
             $table->timestamps();
         });
 

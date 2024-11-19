@@ -54,24 +54,49 @@
                                     <div class="mb-3">
                                         <div class="row">
                                             <div class="col-4">
-                                                <label for="size_length" class="form-label">Length</label>
+                                                <label for="size_width_cm" class="form-label">Width (cm)</label>
                                                 <div class="input-group">
-                                                    <input type="text" class="form-control" id="size_length" name="size_length" required>
-                                                    <span class="input-group-text">cm</span>
+                                                    <input type="text" class="form-control" id="size_width_cm" name="size_width_cm" required>
+                                                    <div class="input-group-text">cm</div>
                                                 </div>
                                             </div>
                                             <div class="col-4">
-                                                <label for="size_height" class="form-label">Height</label>
+                                                <label for="size_length_cm" class="form-label">Depth (cm)</label>
                                                 <div class="input-group">
-                                                    <input type="text" class="form-control" id="size_height" name="size_height" required>
-                                                    <span class="input-group-text">cm</span>
+                                                    <input type="text" class="form-control" id="size_length_cm" name="size_length_cm" required>
+                                                    <div class="input-group-text">cm</div>
                                                 </div>
                                             </div>
                                             <div class="col-4">
-                                                <label for="size_width" class="form-label">Width</label>
+                                                <label for="size_height_cm" class="form-label">Height (cm)</label>
                                                 <div class="input-group">
-                                                    <input type="text" class="form-control" id="size_width" name="size_width" required>
-                                                    <span class="input-group-text">cm</span>
+                                                    <input type="text" class="form-control" id="size_height_cm" name="size_height_cm" required>
+                                                    <div class="input-group-text">cm</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <label for="size_width_inch" class="form-label">Width (inch)</label>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" id="size_width_inch" name="size_width_inch" required>
+                                                    <div class="input-group-text">inch</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-4">
+                                                <label for="size_length_inch" class="form-label">Depth (inch)</label>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" id="size_length_inch" name="size_length_inch" required>
+                                                    <div class="input-group-text">inch</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-4">
+                                                <label for="size_height_inch" class="form-label">Height (inch)</label>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" id="size_height_inch" name="size_height_inch" required>
+                                                    <div class="input-group-text">inch</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -144,28 +169,36 @@
                                         </div>
                                     </div>
                                     <div class="col-md-7 p-5">
-                                        <div class="mb-3">
-                                            <h3>
-                                                <span id="detailProductName" class="fw-bold text-uppercase"></span>
-                                            </h3>
-                                            <h5 id="detailProductCode" class="fw-bold text-info"></h5>
-                                            <small id="detailProductCategory" class="text-warning mt-3 text-uppercase fw-bold"></small>
-                                        </div>
-                                        <span class="badge bg-primary" style="font-size: 12px;">
-                                            Length : <span id="detailProductSizeLength"></span> cm
-                                        </span>
-                                        <span class="badge bg-primary" style="font-size: 12px;">
-                                            Height : <span id="detailProductSizeHeight"></span> cm
-                                        </span>
-                                        <span class="badge bg-primary" style="font-size: 12px;">
-                                            Width : <span id="detailProductSizeWidth"></span> cm
-                                        </span>
-                                        <div class="mt-5">
-                                            <span class="fw-bold">Color :</span> <span id="detailProductColor" class="text-muted"></span>
-                                        </div>
-                                        <div class="mt-5">
-                                            <span class="fw-bold">Material :</span> <span id="detailProductMaterial" class="text-muted"></span>
-                                        </div>
+                                        <table class="table table-bordered table-striped">
+                                            <tr>
+                                                <td class="fw-bold" style="width: 150px;">Name</td>
+                                                <td id="detailProductName"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-bold">Code</td>
+                                                <td id="detailProductCode"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-bold">Size</td>
+                                                <td id="">
+                                                    <p><span class="text-muted">Width:</span> <span id="detailProductSizeWidth"></span></p>
+                                                    <p><span class="text-muted">Depth:</span> <span id="detailProductSizeLength"></span></p>
+                                                    <p><span class="text-muted">Height:</span> <span id="detailProductSizeHeight"></span></p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-bold">Category</td>
+                                                <td id="detailProductCategory"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-bold">Color</td>
+                                                <td id="detailProductColor"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-bold">Material</td>
+                                                <td id="detailProductMaterial"></td>
+                                            </tr>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
@@ -309,24 +342,49 @@
                     <div class="mb-3">
                         <div class="row">
                             <div class="col-4">
-                                <label for="size_length" class="form-label">Length</label>
+                                <label for="size_width_cm" class="form-label">Width (cm)</label>
                                 <div class="input-group">
-                                    <input type="number" class="form-control" id="updateProductSizeLength" name="size_length" required>
-                                    <span class="input-group-text">cm</span>
+                                    <input type="text" class="form-control" id="updateProductSizeWidth" name="size_width_cm" required>
+                                    <div class="input-group-text">cm</div>
                                 </div>
                             </div>
                             <div class="col-4">
-                                <label for="size_height" class="form-label">Height</label>
+                                <label for="size_length_cm" class="form-label">Depth (cm)</label>
                                 <div class="input-group">
-                                    <input type="number" class="form-control" id="updateProductSizeHeight" name="size_height" required>
-                                    <span class="input-group-text">cm</span>
+                                    <input type="text" class="form-control" id="updateProductSizeLength" name="size_length_cm" required>
+                                    <div class="input-group-text">cm</div>
                                 </div>
                             </div>
                             <div class="col-4">
-                                <label for="size_width" class="form-label">Width</label>
+                                <label for="size_height_cm" class="form-label">Height (cm)</label>
                                 <div class="input-group">
-                                    <input type="number" class="form-control" id="updateProductSizeWidth" name="size_width" required>
-                                    <span class="input-group-text">cm</span>
+                                    <input type="text" class="form-control" id="updateProductSizeHeight" name="size_height_cm" required>
+                                    <div class="input-group-text">cm</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="row">
+                            <div class="col-4">
+                                <label for="size_width_inch" class="form-label">Width (inch)</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="updateProductSizeWidthInch" name="size_width_inch" required>
+                                    <div class="input-group-text">inch</div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <label for="size_length_inch" class="form-label">Depth (inch)</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="updateProductSizeLengthInch" name="size_length_inch" required>
+                                    <div class="input-group-text">inch</div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <label for="size_height_inch" class="form-label">Height (inch)</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="updateProductSizeHeightInch" name="size_height_inch" required>
+                                    <div class="input-group-text">inch</div>
                                 </div>
                             </div>
                         </div>
@@ -419,9 +477,12 @@
                 document.getElementById('updateProductCode').value = response.code;
                 document.getElementById('updateProductColor').value = response.color;
                 document.getElementById('updateProductMaterial').value = response.material;
-                document.getElementById('updateProductSizeHeight').value = response.size_height;
-                document.getElementById('updateProductSizeWidth').value = response.size_width;
-                document.getElementById('updateProductSizeLength').value = response.size_length;
+                document.getElementById('updateProductSizeHeight').value = response.size_height_cm;
+                document.getElementById('updateProductSizeWidth').value = response.size_width_cm;
+                document.getElementById('updateProductSizeLength').value = response.size_length_cm;
+                document.getElementById('updateProductSizeHeightInch').value = response.size_height_inch;
+                document.getElementById('updateProductSizeWidthInch').value = response.size_width_inch;
+                document.getElementById('updateProductSizeLengthInch').value = response.size_length_inch;
                 document.getElementById('updateProductCategory').value = response.category_id;
                 $('#updateProductImageList').html('');
                 response.images.forEach(image => {
@@ -509,7 +570,9 @@
         $('#detailProductCode').text(response.code);
         $('#detailProductCategory').text(response.category.name);
         $('#detailProductColor').text(response.color);
-        $('#detailProductSize').text('Size: ' + response.size);
+        $('#detailProductSizeLength').text(response.size_length_cm + ' cm' + ' / ' + response.size_length_inch + ' inch');
+        $('#detailProductSizeHeight').text(response.size_height_cm + ' cm' + ' / ' + response.size_height_inch + ' inch');
+        $('#detailProductSizeWidth').text(response.size_width_cm + ' cm' + ' / ' + response.size_width_inch + ' inch');
         $('#detailProductMaterial').text(response.material);
         $('#detailProductImage').attr('src', response.images[0].image);
         $('#detailProductImageList').html('');

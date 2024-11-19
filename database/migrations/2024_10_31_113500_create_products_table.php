@@ -9,6 +9,7 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
+
     public function up(): void
     {
         Schema::create('products', function (Blueprint $table) {
@@ -17,9 +18,12 @@ return new class extends Migration
             $table->string('code')->nullable();
             $table->foreignId('category_id')->nullable()->constrained('categories')->cascadeOnUpdate()->nullOnDelete();
             $table->string('color')->nullable();
-            $table->string('size_height')->nullable();
-            $table->string('size_width')->nullable();
-            $table->string('size_length')->nullable();
+            $table->string('size_height_cm')->nullable();
+            $table->string('size_width_cm')->nullable();
+            $table->string('size_length_cm')->nullable();
+            $table->string('size_height_inch')->nullable();
+            $table->string('size_width_inch')->nullable();
+            $table->string('size_length_inch')->nullable();
             $table->text('material')->nullable();
             $table->timestamps();
         });

@@ -90,7 +90,7 @@
 
             <div class="form-group mb-3">
                 <label for="meta_description">Meta Description</label>
-                <input type="text" name="meta_description" class="form-control" value="{{ $settings->meta_description }}">
+                <textarea name="meta_description" rows="3" class="form-control">{{ $settings->meta_description }}</textarea>
             </div>
 
             <div class="form-group mb-3">
@@ -101,6 +101,11 @@
             <div class="form-group mb-3">
                 <label for="copyright">Copyright</label>
                 <input type="text" name="copyright" class="form-control" value="{{ $settings->copyright }}">
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="map">Link Embed Map</label>
+                <textarea name="map" rows="3" class="form-control">{{ $settings->map }}</textarea>
             </div>
 
                 <button type="submit" class="btn btn-primary mt-4 w-25">Save</button>

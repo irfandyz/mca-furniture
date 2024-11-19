@@ -168,29 +168,37 @@ Route::middleware(AuthMiddleware::class)->group(function () {
         $request->validate([
             'name' => 'required|string|max:255',
             'category_id' => 'required|integer|exists:categories,id',
+            'code' => 'required|string|max:255',
             'image' => 'required',
-            'size_height' => 'required|string|max:255',
-            'size_width' => 'required|string|max:255',
-            'size_length' => 'required|string|max:255',
             'color' => 'required|string|max:255',
             'material' => 'required|string|max:255',
             'image.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'size_height_cm' => 'required|numeric',
+            'size_width_cm' => 'required|numeric',
+            'size_length_cm' => 'required|numeric',
+            'size_height_inch' => 'required|numeric',
+            'size_width_inch' => 'required|numeric',
+            'size_length_inch' => 'required|numeric',
         ]);
         $images = $request->file('image');
         $imageData = [];
-        foreach ($images as $image) {
-            $imageName = time() . '_' . $image->getClientOriginalExtension();
+        foreach ($images as $key => $image) {
+            $imageName = time() . $key . '.' . $image->getClientOriginalExtension();
             $image->move(public_path('products'), $imageName);
             $imageData[] = $imageName;
         }
         $product = Product::create([
             'name' => $request->name,
             'category_id' => $request->category_id,
-            'size_height' => $request->size_height,
-            'size_width' => $request->size_width,
-            'size_length' => $request->size_length,
+            'code' => $request->code,
             'color' => $request->color,
             'material' => $request->material,
+            'size_height_cm' => $request->size_height_cm,
+            'size_width_cm' => $request->size_width_cm,
+            'size_length_cm' => $request->size_length_cm,
+            'size_height_inch' => $request->size_height_inch,
+            'size_width_inch' => $request->size_width_inch,
+            'size_length_inch' => $request->size_length_inch,
         ]);
         foreach ($imageData as $image) {
             Image::create([
@@ -235,25 +243,33 @@ Route::middleware(AuthMiddleware::class)->group(function () {
         $request->validate([
             'id' => 'required|integer|exists:products,id',
             'name' => 'required|string|max:255',
+            'code' => 'required|string|max:255',
             'category_id' => 'required|integer|exists:categories,id',
             'image' => 'nullable',
             'image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'color' => 'required|string|max:255',
             'material' => 'required|string|max:255',
-            'size_height' => 'required|string|max:255',
-            'size_width' => 'required|string|max:255',
-            'size_length' => 'required|string|max:255',
+            'size_height_cm' => 'required|numeric',
+            'size_width_cm' => 'required|numeric',
+            'size_length_cm' => 'required|numeric',
+            'size_height_inch' => 'required|numeric',
+            'size_width_inch' => 'required|numeric',
+            'size_length_inch' => 'required|numeric',
         ]);
 
         $product = Product::find($request->id);
         $product->update([
             'name' => $request->name,
+            'code' => $request->code,
             'category_id' => $request->category_id,
             'color' => $request->color,
             'material' => $request->material,
-            'size_height' => $request->size_height,
-            'size_width' => $request->size_width,
-            'size_length' => $request->size_length,
+            'size_height_cm' => $request->size_height_cm,
+            'size_width_cm' => $request->size_width_cm,
+            'size_length_cm' => $request->size_length_cm,
+            'size_height_inch' => $request->size_height_inch,
+            'size_width_inch' => $request->size_width_inch,
+            'size_length_inch' => $request->size_length_inch,
         ]);
 
         if ($request->hasFile('image')) {
@@ -370,6 +386,7 @@ Route::middleware(AuthMiddleware::class)->group(function () {
             'meta_description' => 'nullable|string|max:255',
             'meta_author' => 'nullable|string|max:255',
             'copyright' => 'nullable|string|max:255',
+            'map' => 'nullable|string',
         ]);
         $setting = Setting::first();
         if ($request->hasFile('logo')) {
@@ -393,6 +410,7 @@ Route::middleware(AuthMiddleware::class)->group(function () {
             'meta_description' => $request->meta_description,
             'meta_author' => $request->meta_author,
             'copyright' => $request->copyright,
+            'map' => $request->map,
             'logo' => $setting->logo,
         ]);
         return redirect()->back()->with('success', 'Setting updated successfully');

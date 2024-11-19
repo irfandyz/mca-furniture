@@ -82,5 +82,23 @@
     </div>
 </section>
 
+<section id="map" data-aos="fade-up" data-aos-delay="400">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center mt-5">
+                <div class="mapouter">
+                    <div class="gmap_canvas">
+                        <div class="mapouter">
+                            <div class="gmap_canvas">
+                                <iframe src="{{ App\Models\Setting::first()->map }}" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 
 

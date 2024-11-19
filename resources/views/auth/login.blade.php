@@ -24,7 +24,7 @@
     <div class="container d-flex justify-content-center align-items-center vh-100">
         <div class="card shadow-lg" style="width: 400px; border-radius: 20px;">
             <div class="card-body p-5">
-                <img src="{{ asset('assets/img/logo/logo.png') }}" alt="Logo" class="d-block mx-auto mb-4"
+                <img src="{{ asset('logos/' . App\Models\Setting::first()->logo) }}" alt="Logo" class="d-block mx-auto mb-4"
                     style="width: 150px">
                 @error('email')
                     <div class="alert alert-danger" role="alert">

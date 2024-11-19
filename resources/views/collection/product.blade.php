@@ -60,28 +60,40 @@
                                         </div>
                                     </div>
                                     <div class="col-md-7 p-5">
-                                        <div class="mb-3">
-                                            <h3>
-                                                <span id="productName" class="fw-bold text-uppercase"></span>
-                                            </h3>
-                                            <h5 id="productCode" class="fw-bold text-info"></h5>
-                                            <small id="productCategory" class="text-warning mt-3 text-uppercase fw-bold"></small>
-                                        </div>
-                                        <span class="badge bg-primary" style="font-size: 12px;">
-                                            Width : <span id="detailProductSizeWidth"></span> cm
-                                        </span>
-                                        <span class="badge bg-primary" style="font-size: 12px;">
-                                            Length : <span id="detailProductSizeLength"></span> cm
-                                        </span>
-                                        <span class="badge bg-primary" style="font-size: 12px;">
-                                            Height : <span id="detailProductSizeHeight"></span> cm
-                                        </span>
-                                        <div class="mt-5">
-                                            <span class="fw-bold">Color :</span> <span id="productColor" class="text-muted"></span>
-                                        </div>
-                                        <div class="mt-5">
-                                            <span class="fw-bold">Material :</span> <span id="productMaterial" class="text-muted"></span>
-                                        </div>
+                                        <table class="table table-bordered table-hover">
+                                            <tr>
+                                                <td class="fw-bold" style="width: 30%;">Name</td>
+                                                <td id="productName"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-bold">Code</td>
+                                                <td id="productCode"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-bold" rowspan="4" style="vertical-align: middle;">Size</td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="text-primary fw-bold">Width :</span> <span id="productSizeWidth"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="text-primary fw-bold">Depth :</span> <span id="productSizeLength"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="text-primary fw-bold">Height :</span> <span id="productSizeHeight"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-bold">Category</td>
+                                                <td id="productCategory"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-bold">Color</td>
+                                                <td id="productColor"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-bold">Material</td>
+                                                <td id="productMaterial"></td>
+                                            </tr>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
@@ -129,16 +141,14 @@
         });
     }
 
-
-
     function handleAjaxResponse(response) {
         $('#productName').text(response.name.charAt(0).toUpperCase() + response.name.slice(1));
         $('#productCode').text(response.code);
         $('#productCategory').text(response.category.name.charAt(0).toUpperCase() + response.category.name.slice(1));
         $('#productColor').text(response.color.charAt(0).toUpperCase() + response.color.slice(1));
-        $('#detailProductSizeHeight').text(response.size_height);
-        $('#detailProductSizeWidth').text(response.size_width);
-        $('#detailProductSizeLength').text(response.size_length);
+        $('#productSizeHeight').text(response.size_height_cm + ' cm' + ' / ' + response.size_height_inch + ' inch');
+        $('#productSizeWidth').text(response.size_width_cm + ' cm' + ' / ' + response.size_width_inch + ' inch');
+        $('#productSizeLength').text(response.size_length_cm + ' cm' + ' / ' + response.size_length_inch + ' inch');
         $('#productMaterial').text(response.material.charAt(0).toUpperCase() + response.material.slice(1));
         $('#productImage').attr('src', response.images[0].image);
         $('#productImageList').html('');
