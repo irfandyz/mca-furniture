@@ -60,7 +60,10 @@
                                         </div>
                                     </div>
                                     <div class="col-md-7 p-5">
-                                        <table class="table table-bordered table-hover">
+                                        <table class="table">
+                                            <tr>
+                                                <td colspan="2" class="text-center"><h5 class="fw-bold">Information Product</h5></td>
+                                            </tr>
                                             <tr>
                                                 <td class="fw-bold" style="width: 30%;">Name</td>
                                                 <td id="productName"></td>
@@ -142,14 +145,14 @@
     }
 
     function handleAjaxResponse(response) {
-        $('#productName').text(response.name.charAt(0).toUpperCase() + response.name.slice(1));
-        $('#productCode').text(response.code);
-        $('#productCategory').text(response.category.name.charAt(0).toUpperCase() + response.category.name.slice(1));
-        $('#productColor').text(response.color.charAt(0).toUpperCase() + response.color.slice(1));
+        $('#productName').text(': '+response.name.charAt(0).toUpperCase() + response.name.slice(1));
+        $('#productCode').text(': '+response.code);
+        $('#productCategory').text(': '+response.category.name.charAt(0).toUpperCase() + response.category.name.slice(1));
+        $('#productColor').text(': '+response.color.charAt(0).toUpperCase() + response.color.slice(1));
         $('#productSizeHeight').text(response.size_height_cm + ' cm' + ' / ' + response.size_height_inch + ' inch');
         $('#productSizeWidth').text(response.size_width_cm + ' cm' + ' / ' + response.size_width_inch + ' inch');
         $('#productSizeLength').text(response.size_length_cm + ' cm' + ' / ' + response.size_length_inch + ' inch');
-        $('#productMaterial').text(response.material.charAt(0).toUpperCase() + response.material.slice(1));
+        $('#productMaterial').text(': '+response.material.charAt(0).toUpperCase() + response.material.slice(1));
         $('#productImage').attr('src', response.images[0].image);
         $('#productImageList').html('');
         response.images.forEach(image => {

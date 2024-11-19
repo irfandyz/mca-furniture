@@ -169,7 +169,10 @@
                                         </div>
                                     </div>
                                     <div class="col-md-7 p-5">
-                                        <table class="table table-bordered table-striped">
+                                        <table class="table">
+                                            <tr>
+                                                <td colspan="2" class="text-center"><h5 class="fw-bold">Information Product</h5></td>
+                                            </tr>
                                             <tr>
                                                 <td class="fw-bold" style="width: 150px;">Name</td>
                                                 <td id="detailProductName"></td>
@@ -179,12 +182,16 @@
                                                 <td id="detailProductCode"></td>
                                             </tr>
                                             <tr>
-                                                <td class="fw-bold">Size</td>
-                                                <td id="">
-                                                    <p><span class="text-muted">Width:</span> <span id="detailProductSizeWidth"></span></p>
-                                                    <p><span class="text-muted">Depth:</span> <span id="detailProductSizeLength"></span></p>
-                                                    <p><span class="text-muted">Height:</span> <span id="detailProductSizeHeight"></span></p>
-                                                </td>
+                                                <td class="fw-bold" rowspan="4" style="vertical-align: middle;">Size</td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="text-primary fw-bold">Width :</span> <span id="detailProductSizeWidth"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="text-primary fw-bold">Depth :</span> <span id="detailProductSizeLength"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="text-primary fw-bold">Height :</span> <span id="detailProductSizeHeight"></span></td>
                                             </tr>
                                             <tr>
                                                 <td class="fw-bold">Category</td>
@@ -566,14 +573,14 @@
     }
 
     function handleAjaxResponse(response) {
-        $('#detailProductName').text(response.name);
-        $('#detailProductCode').text(response.code);
-        $('#detailProductCategory').text(response.category.name);
-        $('#detailProductColor').text(response.color);
+        $('#detailProductName').text(': '+response.name);
+        $('#detailProductCode').text(': '+response.code);
+        $('#detailProductCategory').text(': '+response.category.name);
+        $('#detailProductColor').text(': '+response.color);
         $('#detailProductSizeLength').text(response.size_length_cm + ' cm' + ' / ' + response.size_length_inch + ' inch');
         $('#detailProductSizeHeight').text(response.size_height_cm + ' cm' + ' / ' + response.size_height_inch + ' inch');
         $('#detailProductSizeWidth').text(response.size_width_cm + ' cm' + ' / ' + response.size_width_inch + ' inch');
-        $('#detailProductMaterial').text(response.material);
+        $('#detailProductMaterial').text(': '+response.material);
         $('#detailProductImage').attr('src', response.images[0].image);
         $('#detailProductImageList').html('');
         response.images.forEach(image => {
