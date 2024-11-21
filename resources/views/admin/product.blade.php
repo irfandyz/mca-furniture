@@ -12,7 +12,7 @@
             </form>
             <div class="row">
                 <div class="col-sm-4 mt-3 mb-5">
-                    <div class="card hover-shadow" data-aos="fade-up"
+                    <div class="card hover-shadow"
                         style="border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); cursor: pointer; height: 100%; background-color: #F5F5F5;"
                         data-bs-toggle="modal" data-bs-target="#addProductModal">
                         <div class="card-body text-center d-flex flex-column justify-content-center"
@@ -127,7 +127,7 @@
                 </div>
                 @foreach ($products as $product)
                     <div class="col-sm-4 mt-3">
-                        <div class="card hover-shadow" data-aos="fade-up"
+                        <div class="card hover-shadow"
                             style="border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
                             <a data-bs-toggle="modal" onclick="getProductDetail('{{ $product->id }}')" data-bs-target="#productDetail" data-lightbox="product"
                                 data-title="{{ $product->name }}">
@@ -220,7 +220,7 @@
     </div>
     <div class="col-md-3">
         <div class="">
-            <div class="filter-container" data-aos="fade-up">
+            <div class="filter-container">
                 <div class="d-flex justify-content-center">
                     <h5 style="font-size: 16px" class="fw-bold">Category</h5>
                 </div>

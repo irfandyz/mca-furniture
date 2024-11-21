@@ -17,8 +17,11 @@
                         <div class="col-md-8">
                             <div class="card-body p-4">
                                 <h5 class="card-title mb-4">{{ $item->title }}</h5>
-                                <p class="card-text mb-4">{{ $item->content }}</p>
+                                <p class="card-text mb-4">{{ $item->description }}</p>
                                 <p class="card-text"><small class="text-muted">{{ $item->date }} {{ $item->month }} {{ $item->year }}</small></p>
+                                @if ($item->content)
+                                <a href="{{ asset('news/' . $item->id) }}" class="text-decoration-none mt-3">View Detail <i class="fa-solid fa-arrow-right"></i></a>
+                                @endif
                             </div>
                         </div>
                     </div>

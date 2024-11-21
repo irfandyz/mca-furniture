@@ -52,7 +52,7 @@
                 </ul>
             </div>
         @endif
-        <div class="row" data-aos="fade-up">
+        <div class="row">
             @foreach ($sliders as $slider)
                 <div class="col-6 mb-4 position-relative">
                     <img src="{{ asset('sliders/' . $slider->image) }}" alt="Slider {{ $slider->id }}"

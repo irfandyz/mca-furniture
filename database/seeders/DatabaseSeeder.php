@@ -74,7 +74,7 @@ class DatabaseSeeder extends Seeder
 
         News::create([
             'title' => 'International Furniture Expo (IFEX) 2024',
-            'content' => 'International Furniture Expo (IFEX) is an International Trade Event that exhibits quality furniture & craft products by Indonesian craftsmen.',
+            'description' => 'International Furniture Expo (IFEX) is an International Trade Event that exhibits quality furniture & craft products by Indonesian craftsmen.',
             'image' => '1.jpeg',
             'date' => '14-17',
             'month' => 'March',
@@ -82,7 +82,7 @@ class DatabaseSeeder extends Seeder
         ]);
         News::create([
             'title' => 'International Furniture Expo (IFEX) 2023',
-            'content' => 'International Furniture Expo (IFEX) is an International Trade Event that exhibits quality furniture & craft products by Indonesian craftsmen.',
+            'description' => 'International Furniture Expo (IFEX) is an International Trade Event that exhibits quality furniture & craft products by Indonesian craftsmen.',
             'image' => '2.jpeg',
             'date' => '9-12',
             'month' => 'March',

@@ -8,12 +8,14 @@ use App\Models\Message;
 use App\Models\Product;
 use App\Models\Setting;
 use App\Models\Slider;
+use App\Models\MediaNews;
 use App\Models\News;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
+
 
 Route::get('/', function () {
     $sliders = Slider::all();
@@ -45,6 +47,11 @@ Route::get('/collection/product/{id}', function ($id) {
 Route::post('/contact', function (Request $request) {
     Message::create($request->all());
     return redirect()->back();
+});
+
+Route::get('/news/{id}', function ($id) {
+    $news = News::find($id);
+    return view('detail-news', compact('news'));
 });
 
 Route::get('/login', function () {
@@ -427,13 +434,13 @@ Route::middleware(AuthMiddleware::class)->group(function () {
     Route::post('/admin/news/store', function (Request $request) {
         $request->validate([
             'title' => 'required|string|max:255',
+            'description' => 'required|string|max:255',
             'content' => 'required|string',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'date' => 'required|string|max:255',
             'month' => 'required|string|max:255',
             'year' => 'required|integer',
         ]);
-
         if (News::count() >= 5) {
             return redirect()->back()->with('error', 'Max 5 News');
         }
@@ -442,11 +449,13 @@ Route::middleware(AuthMiddleware::class)->group(function () {
         $request->file('image')->move(public_path('news'), $imageName);
         News::create([
             'title' => $request->title,
+            'description' => $request->description,
             'content' => $request->content,
             'image' => $imageName,
             'date' => $request->date,
             'month' => $request->month,
             'year' => $request->year,
+            'content' => $request->content,
         ]);
 
         return redirect()->back()->with('success', 'News created successfully');
@@ -474,8 +483,11 @@ Route::middleware(AuthMiddleware::class)->group(function () {
         $request->validate([
             'id' => 'required|integer|exists:news,id',
             'title' => 'required|string|max:255',
-            'content' => 'required|string',
+            'description' => 'required|string|max:255',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'date' => 'required|string|max:255',
+            'month' => 'required|string|max:255',
+            'year' => 'required|integer',
         ]);
 
         $news = News::find($request->id);
@@ -488,6 +500,7 @@ Route::middleware(AuthMiddleware::class)->group(function () {
         }
         $news->update([
             'title' => $request->title,
+            'description' => $request->description,
             'content' => $request->content,
             'image' => $imageName,
             'date' => $request->date,
@@ -495,6 +508,20 @@ Route::middleware(AuthMiddleware::class)->group(function () {
             'year' => $request->year,
         ]);
         return redirect()->back()->with('success', 'News updated successfully');
+    });
+
+    Route::post('/admin/news/upload-media', function (Request $request) {
+        if ($request->hasFile('file')) {
+            $imageName = time() . rand(1111, 9999) . '.' . $request->file('file')->getClientOriginalExtension();
+            $request->file('file')->move(public_path('news/content'), $imageName);
+            MediaNews::create([
+                'media' => $imageName,
+                'type' => 'video/image',
+            ]);
+            return response()->json(['fileName' => $imageName, 'uploaded' => 1, 'link' => asset('news/content/' . $imageName)]);
+        } else {
+            return response()->json(['fileName' => '', 'uploaded' => 0, 'link' => '']);
+        }
     });
 
 });
