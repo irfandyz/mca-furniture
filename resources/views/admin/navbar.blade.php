@@ -26,6 +26,10 @@
                     style="font-weight: 500; letter-spacing: 0.5px; position: relative;">
                     News
                 </a>
+                <a href="{{ asset('/admin/faq') }}" class="text-decoration-none navbar-text ms-5"
+                    style="font-weight: 500; letter-spacing: 0.5px; position: relative;">
+                    FAQ
+                </a>
                 @if (Auth::user()->role == 'superadmin')
                     <a href="{{ asset('/admin/user') }}" class="text-decoration-none navbar-text ms-5"
                         style="font-weight: 500; letter-spacing: 0.5px; position: relative;">

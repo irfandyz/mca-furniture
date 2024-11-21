@@ -244,6 +244,9 @@
             videoUploadParams: {
                 _token: '{{ csrf_token() }}'
             },
+            imageDeleteURL: '{{ asset('admin/news/delete-media') }}?_token=' + '{{ csrf_token() }}',
+
+            videoDeleteURL: '{{ asset('admin/news/delete-media') }}?_token=' + '{{ csrf_token() }}',
         });
         new FroalaEditor('#edit-content', {
             toolbarButtons: [

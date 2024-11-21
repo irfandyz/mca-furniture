@@ -11,6 +11,7 @@ use App\Models\Slider;
 use App\Models\MediaNews;
 use App\Models\News;
 use App\Models\User;
+use App\Models\Faq;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -522,6 +523,48 @@ Route::middleware(AuthMiddleware::class)->group(function () {
         } else {
             return response()->json(['fileName' => '', 'uploaded' => 0, 'link' => '']);
         }
+    });
+
+    // FAQ
+
+    Route::get('/admin/faq', function (request $request) {
+        $faqs = Faq::paginate(5);
+        if ($request->keyword) {
+            $faqs = Faq::where('question', 'like', '%' . $request->keyword . '%')->orWhere('answer', 'like', '%' . $request->keyword . '%')->paginate(5);
+        }
+        return view('admin.faq', compact('faqs'));
+    });
+
+    Route::post('/admin/faq/store', function (Request $request) {
+        $request->validate([
+            'question' => 'required|string|max:255',
+            'answer' => 'required|string',
+        ]);
+        Faq::create([
+            'question' => $request->question,
+            'answer' => $request->answer,
+        ]);
+        return redirect()->back()->with('success', 'FAQ created successfully');
+    });
+
+    Route::get('/admin/faq/delete/{id}', function ($id) {
+        $faq = Faq::find($id);
+        $faq->delete();
+        return redirect()->back()->with('success', 'FAQ deleted successfully');
+    });
+
+    Route::post('/admin/faq/update', function (Request $request) {
+        $request->validate([
+            'id' => 'required|integer|exists:faqs,id',
+            'question' => 'required|string|max:255',
+            'answer' => 'required|string',
+        ]);
+        $faq = Faq::find($request->id);
+        $faq->update([
+            'question' => $request->question,
+            'answer' => $request->answer,
+        ]);
+        return redirect()->back()->with('success', 'FAQ updated successfully');
     });
 
 });

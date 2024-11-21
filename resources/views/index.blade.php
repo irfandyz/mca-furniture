@@ -37,6 +37,8 @@
 
     @include('contact')
 
+    @include('faq')
+
     @include('footer')
 
 
