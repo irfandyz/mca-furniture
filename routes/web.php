@@ -485,13 +485,14 @@ Route::middleware(AuthMiddleware::class)->group(function () {
             'id' => 'required|integer|exists:news,id',
             'title' => 'required|string|max:255',
             'description' => 'required|string|max:255',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'date' => 'required|string|max:255',
             'month' => 'required|string|max:255',
             'year' => 'required|integer',
         ]);
 
         $news = News::find($request->id);
+        $imageName = $news->image;
         if ($request->hasFile('image')) {
             if (file_exists(public_path('news/' . $news->image))) {
                 unlink(public_path('news/' . $news->image));
